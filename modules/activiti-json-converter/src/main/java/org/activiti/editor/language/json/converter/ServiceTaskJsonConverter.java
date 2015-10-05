@@ -77,6 +77,14 @@ public class ServiceTaskJsonConverter extends BaseBpmnJsonConverter {
                 propertiesNode.put(PROPERTY_SERVICETASK_EXPRESSION, serviceTask.getImplementation());
             } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(serviceTask.getImplementationType())) {
                 propertiesNode.put(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION, serviceTask.getImplementation());
+            } else if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equals(serviceTask.getImplementationType())) {
+                propertiesNode.put(PROPERTY_SERVICETASK_IMPLEMENTATION, ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE);
+            } else if (StringUtils.isNotEmpty(serviceTask.getImplementation())) {
+                propertiesNode.put(PROPERTY_SERVICETASK_IMPLEMENTATION, serviceTask.getImplementation());
+            }
+
+            if (StringUtils.isNotEmpty(serviceTask.getOperationRef())) {
+                propertiesNode.put(PROPERTY_SERVICETASK_OPERATION, serviceTask.getOperationRef());
             }
 
             if (StringUtils.isNotEmpty(serviceTask.getResultVariableName())) {
@@ -100,6 +108,13 @@ public class ServiceTaskJsonConverter extends BaseBpmnJsonConverter {
         } else if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION, elementNode))) {
             task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
             task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION, elementNode));
+        } else if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode))) {
+            if (getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode).equals(ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE)) {
+                task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE);
+            } else {
+                task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode));
+            }
+                
         }
 
         if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_RESULT_VARIABLE, elementNode))) {
