@@ -109,7 +109,7 @@ public class ServiceTaskJsonConverter extends BaseBpmnJsonConverter {
             task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
             task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_DELEGATE_EXPRESSION, elementNode));
         } else if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode))) {
-            if (getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode).equals(ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE)) {
+            if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equals(getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode))) {
                 task.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE);
             } else {
                 task.setImplementation(getPropertyValueAsString(PROPERTY_SERVICETASK_IMPLEMENTATION, elementNode));
@@ -117,6 +117,9 @@ public class ServiceTaskJsonConverter extends BaseBpmnJsonConverter {
                 
         }
 
+        if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_OPERATION, elementNode))) {
+          task.setOperationRef(getPropertyValueAsString(PROPERTY_SERVICETASK_OPERATION, elementNode));
+        }
         if (StringUtils.isNotEmpty(getPropertyValueAsString(PROPERTY_SERVICETASK_RESULT_VARIABLE, elementNode))) {
             task.setResultVariableName(getPropertyValueAsString(PROPERTY_SERVICETASK_RESULT_VARIABLE, elementNode));
         }
